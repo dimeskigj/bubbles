@@ -1,10 +1,10 @@
 import { Server, Origins } from "boardgame.io/server";
 import { TicTacToe } from "./games/tic-tac-toe";
-import { BubblesGame } from "./games/bubbles";
+import { Bubbles } from "./games/bubbles";
 
 const server = Server({
-  games: [BubblesGame, TicTacToe],
-  origins: [Origins.LOCALHOST],
+  games: [Bubbles, TicTacToe],
+  origins: [Origins.LOCALHOST, "https://bubbles.dimeski.net"],
 });
 
 server.run(8000);
