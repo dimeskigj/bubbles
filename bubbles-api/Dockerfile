@@ -12,4 +12,4 @@ RUN npm install -g ts-node typescript
 
 EXPOSE 8000
 
-ENTRYPOINT ["ts-node", "src/server.ts"]
+ENTRYPOINT ["npm", "run", "serve"]
