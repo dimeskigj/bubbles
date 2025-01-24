@@ -1,0 +1,6 @@
+services:
+  api:
+    build: .
+    restart: on-failure:5
+    ports:
+      - 309:8000
