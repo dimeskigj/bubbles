@@ -10,7 +10,9 @@ export class LobbyService {
   lobbyClient = new LobbyClient({ server: 'http://localhost:8000' });
 
   createMatch(): Promise<LobbyAPI.CreatedMatch> {
-    return this.lobbyClient.createMatch(constants.gameName, { numPlayers: 2 });
+    return this.lobbyClient.createMatch(constants.gameName, {
+      numPlayers: 2,
+    });
   }
 
   joinMatch(matchId: string): void {
