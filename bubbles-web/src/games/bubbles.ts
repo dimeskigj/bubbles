@@ -1,21 +1,17 @@
 import type { Game, Move } from "boardgame.io";
-import { Bubble, BubblesState, BubbleType } from "./models/bubble";
-import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
+import { BubblesState } from "./models/bubble";
+import { generateBoard, updateBoardAndScore } from "./utils";
 
-const tapBubble: Move<BubblesState> = ({
-  G,
-  ctx,
-  events,
-  playerID,
-  random,
-}) => {
-  const playerScore = G.scores.find((s) => s.playerId === playerID)!;
+const MAX_TURNS = 10;
 
-  // TODO: fix this
-  playerScore.score += 1;
-  G.board = generateBoard(10, 8, random);
+const tapBubble: Move<BubblesState> = (
+  { G, ctx, events, playerID, random },
+  row: number,
+  column: number
+) => {
+  updateBoardAndScore(row, column, playerID, random, G);
 
-  if (ctx.turn >= 4) {
+  if (ctx.turn >= MAX_TURNS * 2) {
     events.endGame();
   } else {
     events.endTurn();
@@ -37,25 +33,4 @@ export const Bubbles: Game<BubblesState> = {
   maxPlayers: 2,
   minPlayers: 2,
   disableUndo: true,
-};
-
-const generateBoard = (
-  rows: number,
-  cols: number,
-  random: RandomAPI
-): Bubble[][] => {
-  const matrix: Bubble[][] = [];
-
-  for (let i = 0; i < rows; i++) {
-    const row: Bubble[] = [];
-    for (let j = 0; j < cols; j++) {
-      row.push({
-        id: random.Number().toString(),
-        type: random.Die(3) as BubbleType,
-      });
-    }
-    matrix.push(row);
-  }
-
-  return matrix;
 };

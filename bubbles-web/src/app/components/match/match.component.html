@@ -19,12 +19,12 @@
         @for(row of state?.G?.board; track $index) {
         @let rowIndex = $index;
         <div class="flex flex-row gap-1 w-full">
-            @for (bubble of row; track bubble.id) {
+            @for (bubble of row; track bubble!.id) {
             @let colIndex = $index;
             <div (click)="onPopBubble(rowIndex, colIndex)" class="w-1/2 aspect-square rounded-full"
-                [class.bg-cyan-300]="bubble.type === bubbleTypes.Cyan"
-                [class.bg-purple-300]="bubble.type === bubbleTypes.Magenta"
-                [class.bg-amber-300]="bubble.type === bubbleTypes.Yellow">
+                [class.bg-cyan-300]="bubble!.type === bubbleTypes.Cyan"
+                [class.bg-purple-300]="bubble!.type === bubbleTypes.Magenta"
+                [class.bg-amber-300]="bubble!.type === bubbleTypes.Yellow">
             </div>
             }
         </div>
