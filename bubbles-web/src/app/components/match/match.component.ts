@@ -167,7 +167,7 @@ export class MatchComponent implements OnInit, OnDestroy {
         { y: 100, opacity: 0, display: 'block' },
         { y: 0, opacity: 1, duration: 1, ease: 'expo.out' }
       );
-    } else if (oldTurn !== this.turnsLeft()) {
+    } else if (oldTurn !== this.turnsLeft() && this.turnsLeft() <= 20) {
       const turnCounterElement =
         this.element.nativeElement.querySelector('[turn-counter]');
 
