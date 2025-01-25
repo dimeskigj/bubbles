@@ -145,9 +145,11 @@ export class MatchComponent implements OnInit, OnDestroy {
         y: 0,
         duration: 0.4,
         ease: 'bounce.out',
+        onStart: () => {
+          navigator.vibrate(movedBubblesElements.length * 5);
+        },
         onComplete: () => {
-          const vibrations = movedBubblesElements.flatMap(() => [100, 10]);
-          navigator.vibrate(vibrations);
+          navigator.vibrate(movedBubblesElements.length * 10);
         },
       }
     );
@@ -160,9 +162,11 @@ export class MatchComponent implements OnInit, OnDestroy {
         opacity: 1,
         duration: 0.5,
         ease: 'bounce.out',
+        onStart: () => {
+          navigator.vibrate(newBubblesElements.length * 10);
+        },
         onComplete: () => {
-          const vibrations = newBubblesElements.flatMap(() => [100, 10]);
-          navigator.vibrate(vibrations);
+          navigator.vibrate(newBubblesElements.length * 20);
         },
       }
     );
