@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { LobbyService } from '../../services/lobby.service';
 import { GameService } from '../../services/game.service';
-import { of, Subject, switchMap, takeUntil } from 'rxjs';
+import { filter, of, Subject, switchMap, takeUntil } from 'rxjs';
 import { ClientState } from 'boardgame.io/dist/types/src/client/client';
 import { AsyncPipe } from '@angular/common';
 import {
@@ -37,6 +37,7 @@ export class MatchComponent implements OnInit, OnDestroy {
   opponentScore$: Subject<PlayerScore> = new Subject();
   destroy$: Subject<void> = new Subject();
   bubbleTypes = BubbleType;
+  turnsLeft = signal<number>(10);
 
   constructor(
     private lobby: LobbyService,
@@ -147,11 +148,46 @@ export class MatchComponent implements OnInit, OnDestroy {
       });
     }
 
+    const turn = newState?.ctx.turn ?? 0;
+    const oldTurn = this.turnsLeft();
+    this.turnsLeft.set(21 - turn);
+
     this.state = newState;
 
     this.changeDetector.detectChanges();
 
     this._animateBubbles(addedBubbles, movedBubbles);
+
+    if (newState?.ctx.gameover) {
+      const winnerText =
+        this.element.nativeElement.querySelector('[winner-text]');
+
+      gsap.fromTo(
+        winnerText,
+        { y: 100, opacity: 0, display: 'block' },
+        { y: 0, opacity: 1, duration: 1, ease: 'expo.out' }
+      );
+    } else if (oldTurn !== this.turnsLeft()) {
+      const turnCounterElement =
+        this.element.nativeElement.querySelector('[turn-counter]');
+
+      gsap
+        .fromTo(
+          turnCounterElement,
+          { y: 100, opacity: 0, display: 'block' },
+          { y: 0, opacity: 1, duration: 1, ease: 'expo.out' }
+        )
+        .then(() => {
+          gsap.fromTo(
+            turnCounterElement,
+            { y: 0, opacity: 1 },
+            { y: -100, opacity: 0, duration: 0.4 }
+          );
+        })
+        .then(() => {
+          turnCounterElement.display = 'none';
+        });
+    }
   }
 
   private _animateBubbles(

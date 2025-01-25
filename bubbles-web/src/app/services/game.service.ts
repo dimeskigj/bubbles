@@ -17,7 +17,7 @@ export class GameService {
     game: Bubbles,
     numPlayers: 2,
     multiplayer: SocketIO({ server: environment.serverUrl }),
-    debug: environment.development && false,
+    debug: false,
   });
 
   constructor() {
