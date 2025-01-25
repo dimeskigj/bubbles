@@ -1,35 +1,35 @@
 import type { Game, Move } from "boardgame.io";
-import { Bubble, BubbleType } from "./models/bubble";
+import { Bubble, BubblesState, BubbleType } from "./models/bubble";
 import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
 
-interface PlayerScore {
-  playerId: string;
-  score: number;
-}
+const tapBubble: Move<BubblesState> = ({
+  G,
+  ctx,
+  events,
+  playerID,
+  random,
+}) => {
+  const playerScore = G.scores.find((s) => s.playerId === playerID)!;
 
-export interface BubblesState {
-  board: Bubble[][];
-  scores: PlayerScore[];
-}
+  // TODO: fix this
+  playerScore.score += 1;
+  G.board = generateBoard(10, 8, random);
 
-const tapBubble: Move<BubblesState> = ({ G, playerID, random }) => {
-  let playerScore = G.scores.find((s) => s.playerId === playerID);
-
-  if (!playerScore) {
-    playerScore = { playerId: playerID, score: 0 };
-    G.scores.push(playerScore);
+  if (ctx.turn >= 4) {
+    events.endGame();
+  } else {
+    events.endTurn();
   }
-
-  // TODO:
-  playerScore.playerId += 1;
-  G.board = generateBoard(10, 6, random);
 };
 
 export const Bubbles: Game<BubblesState> = {
   name: "bubbles",
   setup: ({ random }) => ({
-    board: generateBoard(10, 6, random),
-    scores: [],
+    board: generateBoard(10, 8, random),
+    scores: [
+      { playerId: "0", score: 0 },
+      { playerId: "1", score: 0 },
+    ],
   }),
   moves: {
     tapBubble,

@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { LobbyClient } from 'boardgame.io/client';
 import { constants } from '../constants';
 import { LobbyAPI } from 'boardgame.io';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LobbyService {
-  lobbyClient = new LobbyClient({ server: 'http://localhost:8000' });
+  lobbyClient = new LobbyClient({ server: environment.serverUrl });
 
   createMatch(): Promise<LobbyAPI.CreatedMatch> {
     return this.lobbyClient.createMatch(constants.gameName, {
