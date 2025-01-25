@@ -25,7 +25,6 @@ export class GameService {
 
     this.gameClient.subscribe((state) => {
       this.gameState$.next(state);
-      console.log('game-state: ', state);
     });
   }
 
