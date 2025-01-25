@@ -95,6 +95,8 @@ export class MatchComponent implements OnInit, OnDestroy {
   }
 
   private _handleNewState(newState: ClientState<BubblesState>): void {
+    if (!newState?.isConnected) return;
+
     const newStateBubbles = newState?.G.board.flat();
 
     const addedBubbles = newStateBubbles?.filter(
@@ -146,10 +148,10 @@ export class MatchComponent implements OnInit, OnDestroy {
         duration: 0.4,
         ease: 'bounce.out',
         onStart: () => {
-          navigator.vibrate(movedBubblesElements.length * 5);
+          navigator.vibrate(Math.min(300, movedBubblesElements.length * 5));
         },
         onComplete: () => {
-          navigator.vibrate(movedBubblesElements.length * 10);
+          navigator.vibrate(Math.min(300, movedBubblesElements.length * 10));
         },
       }
     );
@@ -163,10 +165,10 @@ export class MatchComponent implements OnInit, OnDestroy {
         duration: 0.5,
         ease: 'bounce.out',
         onStart: () => {
-          navigator.vibrate(newBubblesElements.length * 10);
+          navigator.vibrate(Math.min(300, newBubblesElements.length * 10));
         },
         onComplete: () => {
-          navigator.vibrate(newBubblesElements.length * 20);
+          navigator.vibrate(Math.min(300, newBubblesElements.length * 20));
         },
       }
     );
