@@ -30,6 +30,16 @@ export const Bubbles: Game<BubblesState> = {
   moves: {
     tapBubble,
   },
+  ai: {
+    enumerate: (G, ctx) => {
+      let moves = [];
+      for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 8; j++)
+          moves.push({ move: "tapBubble", args: [i, j] });
+      }
+      return moves;
+    },
+  },
   maxPlayers: 2,
   minPlayers: 2,
   disableUndo: true,
