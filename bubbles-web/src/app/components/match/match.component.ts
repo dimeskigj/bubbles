@@ -22,6 +22,8 @@ import { Router } from '@angular/router';
 import { Flip } from 'gsap/Flip';
 import { gsap } from 'gsap';
 import confetti from 'canvas-confetti';
+import { DialogRef, DialogService } from '@ngneat/dialog';
+import { QrModalComponent } from '../qr-modal/qr-modal.component';
 @Component({
   selector: 'app-match',
   imports: [AsyncPipe],
@@ -44,9 +46,18 @@ export class MatchComponent implements OnInit, OnDestroy {
     private game: GameService,
     private router: Router,
     private element: ElementRef,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private dialog: DialogService
   ) {
     this.state$ = this.game.gameState$;
+  }
+
+  openDialog(): void {
+    this.dialog.open(QrModalComponent, {
+      data: {
+        url: `https://bubbles.dimeski.net/match/${this.id()}`,
+      },
+    });
   }
 
   ngOnInit(): void {
