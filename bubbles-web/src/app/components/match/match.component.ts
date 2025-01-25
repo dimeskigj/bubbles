@@ -21,6 +21,7 @@ import {
 import { Router } from '@angular/router';
 import { Flip } from 'gsap/Flip';
 import { gsap } from 'gsap';
+import confetti from 'canvas-confetti';
 @Component({
   selector: 'app-match',
   imports: [AsyncPipe],
@@ -95,8 +96,6 @@ export class MatchComponent implements OnInit, OnDestroy {
   }
 
   private _handleNewState(newState: ClientState<BubblesState>): void {
-    if (!newState?.isConnected) return;
-
     const newStateBubbles = newState?.G.board.flat();
 
     const addedBubbles = newStateBubbles?.filter(
@@ -110,6 +109,43 @@ export class MatchComponent implements OnInit, OnDestroy {
         this.state?.G.board.flat().find((b) => b?.id === bubble.id) &&
         bubble.id !== this.state.G.board.flat()[index]?.id
     );
+
+    const destroyedBubbleElements =
+      this.state?.G.board
+        .flat()
+        .filter(
+          (bubble) =>
+            bubble && !newStateBubbles?.find((b) => b?.id === bubble.id)
+        )
+        ?.map((bubble) => {
+          return this.element.nativeElement.querySelector(
+            `[data-flip-id="${bubble!.id}"]`
+          );
+        })
+        .filter((b) => b) ?? [];
+
+    if (destroyedBubbleElements.length !== this.state?.G.board.flat().length) {
+      destroyedBubbleElements.forEach((element: HTMLDivElement) => {
+        const rect = element.getBoundingClientRect();
+        const position = {
+          x: rect.left + rect.width / 2,
+          y: rect.top + rect.height / 2,
+        };
+
+        confetti({
+          particleCount: 10,
+          startVelocity: 10,
+          spread: 60,
+          colors: ['#F2EFE7', '#9ACBD0', '#48A6A7', '#2973B2'], // Bubble-like transparent colors
+          origin: {
+            x: position.x / window.innerWidth,
+            y: position.y / window.innerHeight,
+          },
+          shapes: ['circle'], // Circle shape to mimic bubbles
+          ticks: 25, // Particles stay longer on the screen
+        });
+      });
+    }
 
     this.state = newState;
 
