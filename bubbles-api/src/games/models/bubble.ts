@@ -15,6 +15,6 @@ export interface PlayerScore {
 }
 
 export interface BubblesState {
-  board: Bubble[][];
+  board: (Bubble | null)[][];
   scores: PlayerScore[];
 }
