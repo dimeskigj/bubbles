@@ -15,8 +15,10 @@ export class LobbyService {
     });
   }
 
-  joinMatch(matchId: string): void {
+  joinMatch(matchId: string): Promise<LobbyAPI.JoinedMatch> {
     const playerName = localStorage.getItem(constants.gameName)!;
-    this.lobbyClient.joinMatch(constants.gameName, matchId, { playerName });
+    return this.lobbyClient.joinMatch(constants.gameName, matchId, {
+      playerName,
+    });
   }
 }
