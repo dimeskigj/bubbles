@@ -141,7 +141,15 @@ export class MatchComponent implements OnInit, OnDestroy {
     gsap.fromTo(
       movedBubblesElements,
       { y: -50 },
-      { y: 0, duration: 0.4, ease: 'bounce.out' }
+      {
+        y: 0,
+        duration: 0.4,
+        ease: 'bounce.out',
+        onComplete: () => {
+          const vibrations = movedBubblesElements.flatMap(() => [100, 10]);
+          navigator.vibrate(vibrations);
+        },
+      }
     );
 
     gsap.fromTo(
@@ -152,6 +160,10 @@ export class MatchComponent implements OnInit, OnDestroy {
         opacity: 1,
         duration: 0.5,
         ease: 'bounce.out',
+        onComplete: () => {
+          const vibrations = newBubblesElements.flatMap(() => [100, 10]);
+          navigator.vibrate(vibrations);
+        },
       }
     );
   }
