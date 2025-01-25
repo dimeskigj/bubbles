@@ -10,11 +10,14 @@
         <div class="flex flex-row gap-1 w-full">
             @for (bubble of row; track bubble!.id) {
             @let colIndex = $index;
-            <div bubble [attr.data-flip-id]="bubble!.id" (click)="onPopBubble(rowIndex, colIndex)" class="
-                w-1/2 aspect-square rounded-full hover:scale-105 hover:shadow-2xl cursor-pointer
-                " [class.bg-cyan-300]="bubble!.type === bubbleTypes.Cyan"
+            <div bubble [attr.data-flip-id]="bubble!.id" (click)="onPopBubble(rowIndex, colIndex)"
+                class="
+                drop w-1/2 aspect-square rounded-full hover:scale-105 hover:shadow-2xl cursor-pointer border-2" [class.bg-cyan-300]="bubble!.type === bubbleTypes.Cyan"
                 [class.bg-purple-300]="bubble!.type === bubbleTypes.Magenta"
-                [class.bg-amber-300]="bubble!.type === bubbleTypes.Yellow">
+                [class.bg-amber-300]="bubble!.type === bubbleTypes.Yellow"
+                [class.border-cyan-100]="bubble!.type===bubbleTypes.Cyan"
+                [class.border-purple-100]="bubble!.type === bubbleTypes.Magenta"
+                [class.border-amber-100]="bubble!.type === bubbleTypes.Yellow">
             </div>
             }
         </div>
