@@ -60,6 +60,10 @@ export class MatchComponent implements OnInit, OnDestroy {
     });
   }
 
+  newGame(): void {
+    this.router.navigate(['lobby']).then(() => location.reload());
+  }
+
   ngOnInit(): void {
     this.lobby
       .joinMatch(this.id()!)

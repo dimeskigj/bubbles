@@ -9,14 +9,20 @@
 
 @if(playerScore && opponentScore) {
 <div [attr.winner-text]="'winner-text'"
-    class="text-slate-50 text-center absolute z-10 w-full h-full pointer-events-none m-auto mt-52 text-5xl font-black font-mono hidden drop-shadow-[5px_5px_0.1px_rgba(0,0,0,0.8)]">
-    @if(playerScore.score > opponentScore.score) {
-    YOU WON
-    } @else if (opponentScore.score > playerScore.score) {
-    OPPONENT WON
-    } @else {
-    DRAW
-    }
+    class="text-slate-50 text-center absolute z-10 w-full h-full m-auto mt-52 hidden text-5xl font-black font-mono  drop-shadow-[5px_5px_0.1px_rgba(0,0,0,0.8)]">
+    <div>
+        @if(playerScore.score > opponentScore.score) {
+        YOU WON
+        } @else if (opponentScore.score > playerScore.score) {
+        OPPONENT WON
+        } @else {
+        DRAW
+        }
+    </div>
+    <div class="mt-10 text-slate-950">
+        <button class="w-full bg-purple-300 hover:bg-purple-400 transition p-5 uppercase text-center cursor-pointer" (click)="newGame()">BACK TO MAIN
+            SCREEN</button>
+    </div>
 </div>
 }
 
